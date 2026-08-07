@@ -1,0 +1,52 @@
+{
+  "org": "MeshInspector",
+  "title": "MeshInspector CI runners",
+  "showUnlistedCount": false,
+  "runners": [
+    {
+      "name": "GeorgiaWin-MI",
+      "os": "windows",
+      "spec": "x86-64 · VS 2019 / 2022 / 2026 · CUDA"
+    },
+    {
+      "name": "GeorgiaWin-SI",
+      "os": "windows",
+      "spec": "x86-64 · VS 2019 / 2022 / 2026 · CUDA"
+    },
+    {
+      "name": "gha-runner-linux1",
+      "os": "linux",
+      "spec": "x86-64 · Ubuntu"
+    },
+    {
+      "name": "gha-runner-linux2",
+      "os": "linux",
+      "spec": "x86-64 · Ubuntu"
+    },
+    {
+      "name": "gha-runner-linux3",
+      "os": "linux",
+      "spec": "x86-64 · Ubuntu"
+    },
+    {
+      "name": "gha-runner-linux4",
+      "os": "linux",
+      "spec": "x86-64 · Ubuntu"
+    },
+    {
+      "name": "MACBOOK-PRO-16-2021-TBI-2",
+      "os": "macos",
+      "spec": "Apple silicon · macOS 15"
+    },
+    {
+      "name": "MacBook-Pro-Daniil",
+      "os": "macos",
+      "spec": "Apple silicon · macOS 13"
+    },
+    {
+      "name": "MACPRO2013",
+      "os": "macos",
+      "spec": "Intel · macOS 12"
+    }
+  ]
+}

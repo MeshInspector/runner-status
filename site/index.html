@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>CI runner status</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fbfbfc;
+    --panel: #fff;
+    --line: #e3e5e8;
+    --text: #1c1f23;
+    --muted: #6a7280;
+    --idle: #1f9d55;
+    --busy: #2f6fd0;
+    --down: #b0b5bd;
+    --alert: #d1741f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1216;
+      --panel: #161a20;
+      --line: #262c34;
+      --text: #e6e9ee;
+      --muted: #8b95a3;
+      --idle: #3fb96b;
+      --busy: #5b9bf2;
+      --down: #4a525c;
+      --alert: #e0913f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem 4rem;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 62rem; margin: 0 auto; }
+  h1 { font-size: 1.5rem; margin: 0 0 .35rem; letter-spacing: -.01em; }
+  .sub { color: var(--muted); font-size: .875rem; margin: 0 0 1.75rem; }
+  .summary { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.75rem; }
+  .chip {
+    display: flex; align-items: center; gap: .45rem;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 999px;
+    padding: .35rem .8rem; font-size: .8125rem; color: var(--muted);
+  }
+  .chip b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+  h2 {
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--muted); font-weight: 600; margin: 1.75rem 0 .6rem;
+  }
+  .grid { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }
+  .card {
+    display: flex; align-items: flex-start; gap: .7rem;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: .85rem 1rem;
+  }
+  .dot { width: .6rem; height: .6rem; border-radius: 50%; margin-top: .42rem; flex: none; background: var(--down); }
+  .idle .dot { background: var(--idle); }
+  .busy .dot { background: var(--busy); }
+  .unregistered .dot { background: var(--alert); }
+  .busy .dot { animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  .name { font-weight: 600; }
+  .spec { color: var(--muted); font-size: .8125rem; }
+  .state { margin-left: auto; font-size: .75rem; color: var(--muted); text-transform: lowercase; }
+  footer { margin-top: 2.5rem; color: var(--muted); font-size: .8125rem; }
+  .err { color: var(--alert); }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="title">CI runner status</h1>
+  <p class="sub">Self-hosted GitHub Actions runners. This page is a periodic snapshot, not a live feed.</p>
+  <div class="summary" id="summary"></div>
+  <div id="groups"></div>
+  <footer id="footer">Loading…</footer>
+</main>
+<script>
+const OS_LABEL = { windows: 'Windows', linux: 'Linux', macos: 'macOS' };
+const STATE_LABEL = { idle: 'idle', busy: 'running a job', offline: 'offline', unregistered: 'not registered' };
+
+const el = (tag, cls, text) => {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text !== undefined) n.textContent = text;
+  return n;
+};
+
+function ago(iso) {
+  const s = Math.max(0, (Date.now() - new Date(iso)) / 1000);
+  if (s < 90) return 'just now';
+  if (s < 5400) return `${Math.round(s / 60)} min ago`;
+  return `${Math.round(s / 3600)} h ago`;
+}
+
+function render(data) {
+  document.title = data.title;
+  document.getElementById('title').textContent = data.title;
+
+  const summary = document.getElementById('summary');
+  summary.replaceChildren();
+  const chips = [
+    ['runners', data.counts.total],
+    ['available', data.counts.idle],
+    ['busy', data.counts.busy],
+    ['down', data.counts.down],
+  ];
+  if (data.counts.unlisted !== undefined) chips.push(['not shown', data.counts.unlisted]);
+  for (const [label, value] of chips) {
+    const chip = el('div', 'chip');
+    chip.append(el('b', null, String(value)), document.createTextNode(label));
+    summary.append(chip);
+  }
+
+  const groups = document.getElementById('groups');
+  groups.replaceChildren();
+  for (const os of ['windows', 'linux', 'macos']) {
+    const items = data.runners.filter((r) => r.os === os);
+    if (!items.length) continue;
+    groups.append(el('h2', null, OS_LABEL[os] ?? os));
+    const grid = el('div', 'grid');
+    for (const r of items) {
+      const card = el('div', `card ${r.state}`);
+      const body = el('div');
+      body.append(el('div', 'name', r.display));
+      if (r.spec) body.append(el('div', 'spec', r.spec));
+      card.append(el('span', 'dot'), body, el('span', 'state', STATE_LABEL[r.state] ?? r.state));
+      grid.append(card);
+    }
+    groups.append(grid);
+  }
+
+  document.getElementById('footer').textContent =
+    `Snapshot taken ${ago(data.generatedAt)} (${new Date(data.generatedAt).toUTCString()}).`;
+}
+
+async function refresh() {
+  try {
+    const res = await fetch(`runners.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`runners.json -> ${res.status}`);
+    render(await res.json());
+  } catch (e) {
+    const f = document.getElementById('footer');
+    f.className = 'err';
+    f.textContent = `Could not load runner data: ${e.message}`;
+  }
+}
+
+refresh();
+setInterval(refresh, 60_000);
+</script>
+</body>
+</html>

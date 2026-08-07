@@ -1,0 +1,63 @@
+name: Publish runner status
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Publish to GitHub Pages (off = dry run, output as an artifact only)
+        type: boolean
+        default: false
+
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/create-github-app-token@v3
+        id: token
+        with:
+          client-id: ${{ vars.RUNNER_STATUS_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RUNNER_STATUS_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Build _site
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+        run: python3 scripts/build.py
+
+      - name: Upload for review
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v7
+        with:
+          name: site
+          path: _site
+          retention-days: 7
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    if: github.event_name != 'workflow_dispatch' || inputs.deploy
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
