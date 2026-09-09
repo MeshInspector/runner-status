@@ -14,6 +14,11 @@
       "spec": "x86-64 · VS 2019 / 2022 / 2026 · CUDA"
     },
     {
+      "name": "PC-WIN-TBI-0",
+      "os": "windows",
+      "spec": "x86-64"
+    },
+    {
       "name": "gha-runner-linux1",
       "os": "linux",
       "spec": "x86-64 · Ubuntu"
