@@ -3,6 +3,7 @@ name: Publish runner status
 on:
   schedule:
     - cron: '*/10 * * * *'
+    - cron: '17 3 * * *'  # also runs keepalive
   workflow_dispatch:
     inputs:
       deploy:
@@ -61,3 +62,15 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  # GitHub disables a public repo's schedule after 60 days without commits;
+  # re-enabling the workflow resets that clock.
+  keepalive:
+    if: github.event.schedule == '17 3 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT repos/${{ github.repository }}/actions/workflows/publish-status.yml/enable
