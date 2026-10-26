@@ -39,6 +39,16 @@
       "spec": "x86-64 · Ubuntu"
     },
     {
+      "name": "gha-runner-linux5",
+      "os": "linux",
+      "spec": "x86-64 · Ubuntu"
+    },
+    {
+      "name": "gha-runner-linux6",
+      "os": "linux",
+      "spec": "x86-64 · Ubuntu"
+    },
+    {
       "name": "MACBOOK-PRO-16-2021-TBI-2",
       "os": "macos",
       "spec": "Apple silicon · macOS 15"
