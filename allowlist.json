@@ -6,12 +6,12 @@
     {
       "name": "GeorgiaWin-MI",
       "os": "windows",
-      "spec": "AMD Ryzen 9 9950X · 16 vCPU · 16 GB · VS 2019 / 2022 / 2026 · CUDA"
+      "spec": "AMD Ryzen 9 9950X · 16 vCPU · 16 GB"
     },
     {
       "name": "GeorgiaWin-SI",
       "os": "windows",
-      "spec": "Intel Core i7-13700 · 12 vCPU · 16 GB · VS 2019 / 2022 / 2026 · CUDA"
+      "spec": "Intel Core i7-13700 · 12 vCPU · 16 GB"
     },
     {
       "name": "PC-WIN-TBI-0",
@@ -21,37 +21,37 @@
     {
       "name": "gha-runner-win1",
       "os": "windows",
-      "spec": "Intel Core i7-7700 · 8 vCPU · 16 GB · VS 2019 / 2022 / 2026 · CUDA"
+      "spec": "Intel Core i7-7700 · 8 vCPU · 16 GB"
     },
     {
       "name": "gha-runner-linux1",
       "os": "linux",
-      "spec": "Intel Core i7-10700F · 8 vCPU · 16 GB · Ubuntu"
+      "spec": "Intel Core i7-10700F · 8 vCPU · 16 GB"
     },
     {
       "name": "gha-runner-linux2",
       "os": "linux",
-      "spec": "Intel Core i7-10700F · 8 vCPU · 16 GB · Ubuntu"
+      "spec": "Intel Core i7-10700F · 8 vCPU · 16 GB"
     },
     {
       "name": "gha-runner-linux3",
       "os": "linux",
-      "spec": "Intel Core i7-13700 · 8 vCPU · 8 GB · Ubuntu"
+      "spec": "Intel Core i7-13700 · 8 vCPU · 8 GB"
     },
     {
       "name": "gha-runner-linux4",
       "os": "linux",
-      "spec": "AMD Ryzen 9 9950X · 8 vCPU · 8 GB · Ubuntu"
+      "spec": "AMD Ryzen 9 9950X · 8 vCPU · 8 GB"
     },
     {
       "name": "gha-runner-linux5",
       "os": "linux",
-      "spec": "Intel Core i7-9700K · 8 vCPU · 16 GB · Ubuntu"
+      "spec": "Intel Core i7-9700K · 8 vCPU · 16 GB"
     },
     {
       "name": "gha-runner-linux6",
       "os": "linux",
-      "spec": "AMD Ryzen 9 9950X · 8 vCPU · 16 GB · Ubuntu"
+      "spec": "AMD Ryzen 9 9950X · 8 vCPU · 16 GB"
     },
     {
       "name": "MACBOOK-PRO-16-2021-TBI-2",
