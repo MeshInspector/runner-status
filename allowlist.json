@@ -56,17 +56,17 @@
     {
       "name": "MACBOOK-PRO-16-2021-TBI-2",
       "os": "macos",
-      "spec": "Apple M1 Pro · 10 vCPU · 16 GB · macOS 15"
+      "spec": "Apple M1 Pro · 16 GB · macOS 15"
     },
     {
       "name": "MacBook-Pro-Daniil",
       "os": "macos",
-      "spec": "Apple M1 Pro · 10 vCPU · 16 GB · macOS 13"
+      "spec": "Apple M1 Pro · 16 GB · macOS 13"
     },
     {
       "name": "MACPRO2013",
       "os": "macos",
-      "spec": "Intel Xeon E5-1650 v2 · 12 vCPU · 32 GB · macOS 12"
+      "spec": "Intel Xeon E5-1650 v2 · 32 GB · macOS 12"
     }
   ]
 }
