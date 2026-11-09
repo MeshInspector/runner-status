@@ -19,6 +19,11 @@
       "spec": "x86-64"
     },
     {
+      "name": "gha-runner-win1",
+      "os": "windows",
+      "spec": "x86-64 · VS 2026 · CUDA"
+    },
+    {
       "name": "gha-runner-linux1",
       "os": "linux",
       "spec": "x86-64 · Ubuntu"
