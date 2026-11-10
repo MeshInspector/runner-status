@@ -24,6 +24,11 @@
       "spec": "Intel Core i7-7700 · 8 vCPU · 16 GB"
     },
     {
+      "name": "gha-runner-win2",
+      "os": "windows",
+      "spec": "Intel Core i7-12700 · 8 vCPU · 16 GB"
+    },
+    {
       "name": "gha-runner-linux1",
       "os": "linux",
       "spec": "Intel Core i7-10700F · 8 vCPU · 16 GB"
