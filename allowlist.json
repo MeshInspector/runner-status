@@ -21,7 +21,7 @@
     {
       "name": "gha-runner-win1",
       "os": "windows",
-      "spec": "Intel Core i7-7700 · 8 vCPU · 16 GB"
+      "spec": "AMD Ryzen 7 3700X · 12 vCPU · 26 GB"
     },
     {
       "name": "gha-runner-win2",
